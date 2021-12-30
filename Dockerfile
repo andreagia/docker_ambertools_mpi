@@ -1,5 +1,4 @@
 FROM ubuntu:18.04
-
 MAINTAINER Andrea Giachetti <Giachetti@cerm.unifi.it>
 LABEL description="Container image to run ambertools with sander MPI"
 ENV TZ=Europe/Rome
@@ -9,7 +8,6 @@ RUN apt -y upgrade
 RUN mkdir /prog
 COPY AmberTools21.tar.bz2 /prog
 RUN cd /prog \
-#    && bunzip2 AmberTools21.tar.bz2 \
 	&& tar xvf AmberTools21.tar.bz2 \
 	&& rm AmberTools21.tar.bz2
 RUN apt -y install tcsh make \
@@ -37,16 +35,8 @@ RUN  cmake /prog/amber20_src \
     -DMPI=TRUE -DCUDA=FALSE -DINSTALL_TESTS=FALSE \
     -DDOWNLOAD_MINICONDA=FALSE -DMINICONDA_USE_PY3=FALSE
 RUN  make install -j5
-
-#RUN cd build && ./run_cmake && make install -j5
 RUN cd /prog && rm -rf amber20_src
 ENV AMBERHOME=/prog/amber20
 ENV PATH=$PATH:$AMBERHOME/bin
 WORKDIR /opt
 
-
-#RUN make install -j5
-#RUN export AMBERHOME=$(pwd) \
-#RUN ./configure --no-updates --skip-python -noX11 -mpi -openmp gnu
-#RUN apt -y install zlib1g zlib1g-dev librust-bzip2-dev
-#RUN make install -j5
