@@ -7,6 +7,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt -y update
 RUN apt -y upgrade
 RUN mkdir /prog
+# Download ambertools from https://ambermd.org/AmberTools.php
 COPY AmberTools21.tar.bz2 /prog
 RUN cd /prog \
 #    && bunzip2 AmberTools21.tar.bz2 \
@@ -17,6 +18,7 @@ RUN apt -y install tcsh make \
                flex bison patch \
                bc xorg-dev libbz2-dev wget \
                cmake
+# Download openmpi from https://www.open-mpi.org/software/ompi/v4.1/
 COPY openmpi-4.1.0.tar.bz2 /prog
 RUN cd /prog \
     && tar xvf openmpi-4.1.0.tar.bz2 \
